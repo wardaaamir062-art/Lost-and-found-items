@@ -3,10 +3,41 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>Lost & Found Hub | Community Recovery</title>
+    <title>Lost & Found Items | Community Recovery</title>
     
-    <!-- External Dependencies -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- External Dependencies, Google Fonts: Inter (modern, highly readable) -->
+    <script src="https://cdn.tailwindcss.com"></script>     <!-- TailwindCSS CDN for utility classes -->
+
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
+
+    <!--CSS Stylessheet-->
+    <link rel=""stylesheet" href="styles.css">
+</head>
+<body class="flex items-center justify-center p-4 sm:p-5">
+     <div class="glass-panel w-full max-w-2xl rounded-2xl overflow-hidden flex flex-col max-h-[92vh] shadow-2xl">
+
+        <!-- HEADER: Title, icon, and total report count -->
+        <div class="bg-white border-b border-indigo-50/80 p-5 sm:p-6">
+            <div class="flex items-center justify-between mb-5">
+                <div class="flex items-center gap-3">
+                    <!-- Logo / Icon badge with gradient -->
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center text-white shadow-md">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/>
+                            <path d="M2 12h20"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h1 class="text-2xl font-bold text-gray-800 tracking-tight">Lost &amp; Found</h1>
+                        <p class="text-xs text-gray-500 font-medium">Community recovery hub</p>
+                    </div>
+                </div>
+                <!-- Dynamic counter: shows total number of reports -->
+                <div class="text-right">
+                    <span id="total-items" class="text-2xl font-extrabold text-indigo-600">0</span>
+                    <p class="text-[11px] text-gray-400 uppercase tracking-wider font-semibold">reports</p>
+                </div>
+            </div>
 
     
