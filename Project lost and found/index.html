@@ -90,3 +90,13 @@
                         </div>
                     </label>
                 </div>
+  <!-- Main submission form with enhanced validation -->
+                <form id="item-form" onsubmit="Submit(event)" class="space-y-4" novalidate>
+
+                    <!-- Item Name (required) -->
+                    <div>
+                        <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-1">Item name *</label>
+                        <input type="text" id="item-name" required placeholder="e.g., Grey Laptop, Red Backpack, AirPods"
+                               class="w-full px-4 py- rounded-xl border border-gray-200 focus:border-indigo-400 focus:ring-2 focus:ring-indigo-200 outline-none transition">
+                        <div class="error-message" id="error-name">Please enter the item name</div>
+                    </div>
