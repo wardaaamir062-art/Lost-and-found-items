@@ -107,9 +107,15 @@
                             <select id="item-category" class="w-full px-4 py-3 rounded-xl border border-gray-200 bg-white focus:ring-2 focus:ring-indigo-200 outline-none transition">
                                 <option value="electronics">📱 Electronics</option>
                                 <option value="clothing">👕 Clothing</option>
-                                <option value="accessories">💍 Accessories</option>
                                 <option value="documents">📄 Documents</option>
                                 <option value="keys">🔑 Keys</option>
                                 <option value="other">📦 Other</option>
                             </select>
                         </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-gray-600 uppercase tracking-wider mb-1">Date *</label>
+                            <input type="date" id="item-date" required
+                                   class="simple-date-input w-full px-4 py-3 rounded-xl border border-gray-200 bg-white focus:ring-2 focus:ring-indigo-200 outline-none">
+                            <div class="error" id="error">Please select a valid date</div>
+                        </div>
+                    </div>
