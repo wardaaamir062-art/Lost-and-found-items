@@ -165,3 +165,4 @@ function handleSubmit(e) {
         filterByType(type);
     }, 650);
 }
+
