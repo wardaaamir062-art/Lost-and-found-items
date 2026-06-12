@@ -1,1 +1,147 @@
 /*styles.css*/
+/* ----- GLOBAL & BODY STYLES ----- */
+/* Sets the base font family to Inter (clean modern sans-serif) with fallback */
+body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    /* Creates a vibrant gradient background from indigo to purple for visual appeal */
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh; /* Ensures gradient covers the full viewport height */
+}
+ 
+/* ----- MAIN CARD (GLASS PANEL) ----- */
+/* The central white container with semi-transparent background & blur effect */
+.glass-panel {
+    background: rgba(255, 255, 255, 0.96); /* Nearly white with slight transparency */
+    backdrop-filter: blur(4px);             /* Adds subtle background blur */
+    box-shadow: 0 25px 45px -12px rgba(0, 0, 0, 0.35); /* Deep soft shadow for elevation */
+    border-radius: 1rem;                    /* Inherited rounded corners */
+}
+ 
+/* ----- TAB BUTTON ACTIVE STATE ----- */
+/* Applied to the currently active tab (Report or Browse) */
+.tab-active {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); /* Gradient matching hero */
+    color: white;                           /* White text for contrast */
+    box-shadow: 0 6px 12px -6px rgba(102, 126, 234, 0.4); /* Soft glow beneath */
+}
+ 
+/* ----- ITEM CARD STYLES (each lost/found entry) ----- */
+.item-card {
+    transition: all 0.2s ease;              /* Smooth hover animation */
+    border-left: 4px solid transparent;     /* Invisible left border for hover effect */
+}
+/* Hover effect: slight right shift + colored left border + lighter background */
+.item-card:hover {
+    transform: translateX(3px);             /* Moves card slightly right */
+    border-left-color: #667eea;             /* Indigo left border appears */
+    background: #faf9ff;                    /* Very light purple tint */
+}
+ 
+/* ----- FADE-IN ANIMATION for content switching ----- */
+.fade-in {
+    animation: fadeIn 0.35s ease-out;       /* Triggers keyframes below */
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); } /* Start invisible & slightly down */
+    to   { opacity: 1; transform: translateY(0); }   /* End fully visible & original position */
+}
+ 
+/* ----- CUSTOM SCROLLBAR (for better aesthetics) ----- */
+.custom-scrollbar::-webkit-scrollbar {
+    width: 5px;                             /* Narrow scrollbar width */
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+    background: #f0f0f5;                    /* Light gray track */
+    border-radius: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+    background: #cbd5e1;                    /* Slate gray thumb */
+    border-radius: 6px;
+}
+ 
+/* ----- STATUS BADGES (LOST vs FOUND) ----- */
+.status-lost {
+    background: #ffe4e2;                    /* Soft red background */
+    color: #b91c1c;                         /* Deep red text */
+}
+.status-found {
+    background: #dcfce7;                    /* Soft green background */
+    color: #166534;                         /* Deep green text */
+}
+ 
+/* ----- DATE INPUT CLEAN STYLES ----- */
+.simple-date-input {
+    appearance: none;                        /* Removes browser-specific styling */
+    background: white;
+}
+/* Custom calendar picker icon styling (keeps it subtle) */
+.simple-date-input::-webkit-calendar-picker-indicator {
+    background: transparent;
+    opacity: 0.6;
+    cursor: pointer;
+}
+.simple-date-input::-webkit-calendar-picker-indicator:hover {
+    opacity: 1;                             /* Full opacity on hover */
+}
+ 
+/* ----- BUTTON ACTIVE MICRO-INTERACTION ----- */
+button:active {
+    transform: scale(0.97);                 /* Slight shrink on click for tactile feedback */
+}
+ 
+/* ----- ICON PLACEHOLDER FOR ITEMS (no photos) ----- */
+.icon-placeholder {
+    background: #f1f5f9;                    /* Light slate background */
+    width: 52px;
+    height: 52px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #94a3b8;                         /* Muted icon color */
+    flex-shrink: 0;                         /* Prevents shrinking in flex layout */
+    border: 1px solid #eef2ff;
+}
+ 
+/* ----- CONTACT INFO TEXT STYLES (readable & compact) ----- */
+.contact-info-text {
+    word-break: break-all;
+    font-size: 0.75rem;
+    line-height: 1.25rem;
+    background: #f8fafc;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.5rem;
+    display: inline-block;
+    max-width: 100%;
+}
+ 
+/* ===== FORM VALIDATION STYLES - Red outline for empty/invalid fields ===== */
+/* Applied to inputs/select/textarea when they fail validation */
+.input-error {
+    border-color: #ef4444 !important;       /* Red border */
+    background-color: #fef2f2 !important;   /* Very light red background */
+    box-shadow: 0 0 0 1px #fecaca !important; /* Subtle red glow */
+}
+ 
+/* Error message that appears below invalid field */
+.error-message {
+    color: #dc2626;
+    font-size: 0.7rem;
+    margin-top: 0.25rem;
+    display: none;
+    font-weight: 500;
+}
+.error-message.show {
+    display: block;
+}
+ 
+/* Styling for the custom category dropdown (visual enhancement) */
+select#item-category {
+    cursor: pointer;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3E%3Cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3E%3C/svg%3E");
+    background-position: right 0.75rem center;
+    background-repeat: no-repeat;
+    background-size: 1.25rem;
+    appearance: none;
+    padding-right: 2.5rem;
+}
