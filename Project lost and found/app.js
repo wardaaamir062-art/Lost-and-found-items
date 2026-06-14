@@ -165,4 +165,122 @@ function handleSubmit(e) {
         filterByType(type);
     }, 650);
 }
+// ----- Generate category icon SVG based on category name -----
+function getCategoryIconSvg(cat) {
+    const icons = {
+        electronics:  `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><rect x="2" y="5" width="20" height="12" rx="2"/><line x1="8" y1="19" x2="16" y2="19"/><line x1="12" y1="17" x2="12" y2="19"/></svg>`,
+        clothing:     `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20.38 3.4a1.6 1.6 0 0 0-2.29.08l-2.25 2.34A7.5 7.5 0 1 0 9.25 18.88l-2.3 2.4a1.6 1.6 0 0 0 2.29 1.08l11-11.5a1.6 1.6 0 0 0 .14-2.16z"/><path d="M15.5 8.5 11 13"/></svg>`,
+        accessories:  `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3"/><path d="M12 3v2"/><path d="M12 19v2"/><path d="M3 12h2"/><path d="M19 12h2"/></svg>`,
+        documents:    `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="8" y1="13" x2="16" y2="13"/><line x1="8" y1="17" x2="16" y2="17"/></svg>`,
+        keys:         `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="7.5" cy="15.5" r="5.5"/><path d="m21 2-9.6 9.6"/><path d="m15.5 7.5 3 3L22 7l-3-3"/><path d="M12 10.5 8.5 14"/></svg>`,
+        other:        `<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r="0.5" fill="currentColor" stroke="none"/></svg>`
+    };
+    return icons[cat] || icons.other;
+}
+
+// ----- Format date for display (Today, Yesterday, X days ago, or short date) -----
+function formatDateSimple(dateStr) {
+    if (!dateStr) return 'Unknown';
+    const d = new Date(dateStr);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const diffDays = Math.floor((today - d) / (1000 * 60 * 60 * 24));
+    if (diffDays === 0) return 'Today';
+    if (diffDays === 1) return 'Yesterday';
+    if (diffDays > 1 && diffDays < 7) return `${diffDays} days ago`;
+    return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+}
+
+// ----- Core rendering: filter items based on search & type, then generate HTML -----
+function renderItems() {
+    const container  = document.getElementById('items-list');
+    const searchTerm = document.getElementById('search-input').value.toLowerCase().trim();
+
+    let filtered = items.filter(item => {
+        const matchesSearch =
+            item.name.toLowerCase().includes(searchTerm) ||
+            item.location.toLowerCase().includes(searchTerm) ||
+            (item.description && item.description.toLowerCase().includes(searchTerm)) ||
+            item.category.toLowerCase().includes(searchTerm);
+        const matchesType = currentFilter === 'all' || item.type === currentFilter;
+        return matchesSearch && matchesType;
+    });
+
+    filtered.sort((a, b) => b.timestamp - a.timestamp);
+
+    if (filtered.length === 0) {
+        container.innerHTML = '';
+        document.getElementById('empty-state').classList.remove('hidden');
+        return;
+    }
+    document.getElementById('empty-state').classList.add('hidden');
+
+    container.innerHTML = filtered.map(item => `
+        <div class="item-card bg-white p-4 rounded-xl border border-gray-100 shadow-sm">
+            <div class="flex gap-3">
+                <div class="icon-placeholder">
+                    ${getCategoryIconSvg(item.category)}
+                </div>
+                <div class="flex-1">
+                    <div class="flex justify-between items-start flex-wrap gap-1">
+                        <div>
+                            <h3 class="font-bold text-gray-800 pr-2">${escapeHtml(item.name)}</h3>
+                            <p class="text-xs text-gray-500 mt-0.5 flex items-center gap-1 flex-wrap">
+                                <span>📍 ${escapeHtml(item.location)}</span>
+                                <span class="inline-block w-1 h-1 rounded-full bg-gray-300"></span>
+                                <span>📅 ${formatDateSimple(item.date)}</span>
+                            </p>
+                        </div>
+                        <span class="px-2.5 py-1 rounded-full text-[11px] font-bold uppercase ${item.type === 'lost' ? 'status-lost' : 'status-found'}">${item.type === 'lost' ? 'LOST' : 'FOUND'}</span>
+                    </div>
+                    ${item.description ? `<p class="text-sm text-gray-600 mt-2 leading-relaxed">${escapeHtml(item.description)}</p>` : ''}
+                    <div class="mt-3 pt-2 border-t border-gray-100 flex flex-wrap items-center justify-between gap-2">
+                        <span class="text-xs font-medium text-gray-500 bg-gray-100 px-2.5 py-1 rounded-full capitalize flex items-center gap-1">
+                            <span>🏷️</span> ${item.category}
+                        </span>
+                        <div class="flex items-center gap-1.5 text-xs bg-indigo-50/70 px-3 py-1.5 rounded-full">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="text-indigo-600"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.362 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.338 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+                            <span class="font-mono text-gray-800 font-medium text-xs break-all">${escapeHtml(item.contact)}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `).join('');
+}
+
+function filterItems() { renderItems(); }
+
+function filterByType(type) {
+    currentFilter = type;
+    document.querySelectorAll('.filter-btn').forEach(btn => {
+        if (btn.dataset.filter === type) {
+            btn.classList.remove('bg-white', 'text-gray-600', 'border', 'border-gray-200');
+            btn.classList.add('bg-gray-800', 'text-white');
+        } else {
+            btn.classList.add('bg-white', 'text-gray-600', 'border', 'border-gray-200');
+            btn.classList.remove('bg-gray-800', 'text-white');
+        }
+    });
+    renderItems();
+}
+
+function showToast(msg) {
+    const toast = document.getElementById('toast');
+    document.getElementById('toast-message').innerHTML = msg;
+    toast.classList.remove('translate-y-20', 'opacity-0');
+    setTimeout(() => toast.classList.add('translate-y-20', 'opacity-0'), 2600);
+}
+
+function escapeHtml(str) {
+    if (!str) return '';
+    return str.replace(/[&<>"']/g, function (m) {
+        if (m === '&')  return '&amp;';
+        if (m === '<')  return '&lt;';
+        if (m === '>')  return '&gt;';
+        if (m === '"')  return '&quot;';
+        if (m === "'")  return '&#39;';
+        return m;
+    });
+}
 
