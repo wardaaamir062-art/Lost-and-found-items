@@ -1,5 +1,6 @@
 // ----------JS DATA STORE (in-memory array) ----------
 // Each item represents a lost or found report.
+
 let items = [
     { id: 101, type: 'lost', name: 'Black Leather Wallet', category: 'accessories', location: 'Central Park Station', date: '2024-12-10',
       description: 'Contains ID & credit cards, brown interior, vintage stitch', contact: 'john.d@example.com', timestamp: 1733817600000 },
@@ -8,7 +9,6 @@ let items = [
     { id: 103, type: 'lost', name: 'Car Keys with VW fob', category: 'keys', location: 'Parking lot A', date: '2024-12-08',
       description: '3 keys + gym tag (blue) + small lego figure attached', contact: 'sarah.k@example.com', timestamp: 1733644800000 }
 ];
-
 let currentFilter = 'all'; // Tracks active filter: 'all', 'lost', or 'found'
 
 // DOM element references & initial setup
@@ -33,7 +33,7 @@ function clearAllFieldErrors() {
         }
         // Hide corresponding error message
         const errorMsg = document.getElementById(`error-${fieldId.replace('item-', '')}`);
-        if (errorMsg) errorMsg.classList.remove('show');
+       if (errorMsg) errorMsg.classList.remove('show');
     });
 }
 
@@ -54,7 +54,7 @@ function markFieldError(fieldId, errorMsgId) {
     if (errorDiv) errorDiv.classList.add('show');
 }
 
-// ----- Validate form and highlight empty required fields (no alert popups) -----
+// ----- Validate form and highlight empty required fields -----
 function validateFormAndHighlight() {
     let isValid = true;
 
@@ -116,7 +116,7 @@ function switchMode(mode) {
     }
 }
 
-// ----- Handle new item submission with visual validation (no alert popups) -----
+// ----- Handle new item submission with visual validation -----
 function handleSubmit(e) {
     e.preventDefault(); // Prevent page reload
 
@@ -283,4 +283,3 @@ function escapeHtml(str) {
         return m;
     });
 }
-
